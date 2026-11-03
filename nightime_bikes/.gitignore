@@ -17,5 +17,6 @@ db.sqlite3-journal
 
 # Archivos del sistema y editores
 .vscode/
+.vscode
 .idea/
 .DS_Store
