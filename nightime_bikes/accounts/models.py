@@ -11,7 +11,7 @@ class perfil(models.Model):
     )
     
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    # Al crear cuenta no se puede seleccionar el rol, para empleados y admins el rolo debe ser otorgado
+    # Al crear cuenta no se puede seleccionar el rol, para empleados y admins el rol debe ser otorgado
     rol = models.CharField(max_length=20, choices=ROLE_CHOICES, default='cliente') 
     cedula = models.CharField(max_length=20, blank=True, null=True)
     telefono = models.CharField(max_length=20, blank=True, null=True)
