@@ -4,7 +4,7 @@ from django.db import models
 
 # Tabla de las categorias base de datos
 class categorias(models.Model):
-    nombre_categoria = models.CharField(50)
+    nombre_categoria = models.CharField(max_length=50)
     descripcion_c = models.TextField(blank=True, null=True)
 
 # Tabla de productos para la base de datos
