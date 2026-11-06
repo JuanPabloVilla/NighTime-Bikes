@@ -16,7 +16,7 @@ def agregarAl_carrito(request, producto_id):
     if request.method == 'POST':
         
         #Para traer el objeto seleccionado por el id
-        producto = get_object_or_404(producto, id=producto_id)
+        producto_seleccionado = get_object_or_404(productos, id=producto_id)
         
         #Para crear el carrito del usuario o crearlo si no tiene 
         carrito, created = Carrito.objects.get_or_create(usuario=request.user.perfil)
@@ -24,21 +24,21 @@ def agregarAl_carrito(request, producto_id):
         #Condicional para verificar si el producto estaba o no en el carrito 
         item, item_created = items_carrito.objects.get_or_create(
             carrito=carrito,
-            producto=producto,
-            defaults={'precio_unitario': producto.precio, 'cantidad': 1}
+            producto=producto_seleccionado,
+            defaults={'precio_unitario': producto_seleccionado.precio, 'cantidad': 1}
         )
         if not item_created:
             item.cantidad += 1
             item.save()
 
     #Para llevar al usuario a la pagina del carrito
-    return redirect('cart/carrito.html')
+    return redirect('ver_carrito')
 
 #Funcion para mostrar, editar o eliminar los productos en el template
 def ver_carrito(request):
     
     #Para obtener el carrito del usuario
-    carrito, created = Carrito.objects.get_or_create(usuario=request.user.perfil)
+    carrito, created = Carrito.objects.get_or_create(usuario=request.user.perfil, estado_pedido=True)
 
     #Para traer los items que estan en el carrito
     items = carrito.items.all()
@@ -46,13 +46,17 @@ def ver_carrito(request):
     #El precio total del producto seleccionado
     total = sum(item.cantidad * item.precio_unitario for item in items)
 
+    #Para guardar el total para la factura
+    carrito.total_pagar = total
+    carrito.save()
+
     #Para devolver los items y el total
     return render(request, 'cart/carrito.html', {'items': items,'total': total})
 
 #Funciones para ajustar cantidad de productos o eliminar el producto del carrito
 
 #Para el boton de aumentar y disminuir
-def actulizar_cantidad(requeste, item_id, accion):
+def actualizar_cantidad(request, item_id, accion):
 
     #Obtener el producto por id
     item = get_object_or_404(items_carrito, id=item_id)
@@ -65,7 +69,7 @@ def actulizar_cantidad(requeste, item_id, accion):
     item.save()
 
     #Lleva nuevamente al carrito
-    return redirect('cart/carrito.html')
+    return redirect(request, 'ver_carrito')
 
 #Para el boton de eliminar
 def eliminar_item(request, item_id):
@@ -77,12 +81,12 @@ def eliminar_item(request, item_id):
     item.delete()
 
     #volvemos al carrito
-    return redirect('cart/carrito.html')
+    return redirect('Carrito')
 
 #Funcion para generar la factura
 def generar_factura(request):
-    #Para obtener la informacion del carrito por usuario
-    carrito = Carrito.objects.get(usuario=request.user.perfil)
+    #Para obtener la informacion del carrito activo por usuario
+    carrito = Carrito.objects.filter(usuario=request.user.perfil, estado_pedido=True).first()
 
     #Para obtener los items del carrito
     items = carrito.items.all()
@@ -93,5 +97,5 @@ def generar_factura(request):
         carrito.save()
 
         #lo enviamos a una lista con todas las compras completadas (facturas)
-        return redirect('catalog/facturas.html', carrito_id=carrito.id)
-    return redirect('cart/carrito.html')
+        return redirect('ver_factura', carrito_id=carrito.id)
+    return redirect('ver_carrito')

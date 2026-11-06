@@ -112,5 +112,6 @@ python -m pip install
     -django
     -mysqlclient
     -python-dotenv
+    -Pillow (imagenes)
 
 ______________________________________________________________________________
