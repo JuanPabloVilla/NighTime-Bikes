@@ -1,6 +1,6 @@
 from django.shortcuts import render
 #Importar la informacion del models
-from .models import *
+from .models import productos, categorias
 
 # Create your views here.
 
@@ -8,8 +8,8 @@ from .models import *
 def mostrar_productos(request):
     productos_disponibles = productos.objects.filter(estado=True)
     categorias_disponibles = categorias.objects.all()
-    lista_productos = {
+    contexto = {
         'productos': productos_disponibles,
         'categorias': categorias_disponibles,
     }
-    return render(request, 'catalog/productos.html', lista_productos)
+    return render(request, 'catalog/index.html', contexto)

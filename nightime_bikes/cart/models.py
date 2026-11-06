@@ -15,8 +15,8 @@ class Carrito(models.Model):
 class items_carrito(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name='items')
     producto = models.ForeignKey('catalog.productos', on_delete = models.CASCADE)
-    cantidad = models.IntegerField()
+    cantidad = models.IntegerField(default=1)
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
 
-def __str__(self):
-    return f"{self.cantidad}*{self.producto.nombre} (pedido #{self.pedido.id})"
+    def __str__(self):
+        return f"{self.cantidad}*{self.producto.nombre} (pedido #{self.pedido.id})"
