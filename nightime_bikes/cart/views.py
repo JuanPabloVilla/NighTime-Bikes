@@ -7,12 +7,14 @@ from .models import Carrito, items_carrito
 from catalog.models import productos
 
 # Create your views here.
+# _________________________________________________
+# Parte para las views del carrito
+# _________________________________________________
 
 #Para exigir el login del usuario
 @login_required(login_url='accounts/login')
-
-#Funcion para agregar los productos al carrito
 def agregarAl_carrito(request, producto_id):
+    #Funcion para agregar los productos al carrito
     if request.method == 'POST':
         
         #Para traer el objeto seleccionado por el id
@@ -35,6 +37,7 @@ def agregarAl_carrito(request, producto_id):
     return redirect('ver_carrito')
 
 #Funcion para mostrar, editar o eliminar los productos en el template
+@login_required(login_url='accounts/login')
 def ver_carrito(request):
     
     #Para obtener el carrito del usuario
@@ -56,6 +59,7 @@ def ver_carrito(request):
 #Funciones para ajustar cantidad de productos o eliminar el producto del carrito
 
 #Para el boton de aumentar y disminuir
+@login_required(login_url='accounts/login')
 def actualizar_cantidad(request, item_id, accion):
 
     #Obtener el producto por id
@@ -69,9 +73,10 @@ def actualizar_cantidad(request, item_id, accion):
     item.save()
 
     #Lleva nuevamente al carrito
-    return redirect(request, 'ver_carrito')
+    return redirect('ver_carrito')
 
 #Para el boton de eliminar
+@login_required(login_url='accounts/login')
 def eliminar_item(request, item_id):
 
     #obtener producto por id
@@ -81,21 +86,35 @@ def eliminar_item(request, item_id):
     item.delete()
 
     #volvemos al carrito
-    return redirect('Carrito')
+    return redirect('ver_carrito')
+
+
+# _________________________________________________
+# Parte para las views de las facturas
+# _________________________________________________
 
 #Funcion para generar la factura
 def generar_factura(request):
-    #Para obtener la informacion del carrito activo por usuario
+    #Para obtener la informacion del carrito activo por usuario, cerrarlo y pasar la informacion a factura
     carrito = Carrito.objects.filter(usuario=request.user.perfil, estado_pedido=True).first()
 
     #Para obtener los items del carrito
-    items = carrito.items.all()
+    if carrito:
+        items = carrito.items.all()
 
-    #Condicional para cerrar el carrito
-    if items.exists():
-        carrito.estado_pedido = False
-        carrito.save()
+        #Condicional para cerrar el carrito
+        if items.exists():
+            carrito.estado_pedido = False
+            carrito.save()
 
-        #lo enviamos a una lista con todas las compras completadas (facturas)
-        return redirect('ver_factura', carrito_id=carrito.id)
+            #lo enviamos a una lista con todas las compras completadas (facturas)
+            return redirect('ver_factura', carrito_id=carrito.id)
     return redirect('ver_carrito')
+
+@login_required(login_url='login')
+def ver_factura(request, carrito_id):
+    #Para buscar el carrito cerrado y la informacion que contenia
+    factura = get_object_or_404(Carrito, id=carrito_id, usuario=request.user.perfil, estado_pedido=False)
+    items = factura.items.all()
+    
+    return render(request, 'cart/factura.html', {'factura': factura, 'items': items})
