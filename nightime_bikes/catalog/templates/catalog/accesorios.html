@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<article>
+    <article>
+
+    </article>
+    <article>
+        {% for producto in productos %}
+            <div>
+                <div>
+                    <img src="{{producto.imagen.urls}}" alt="{{ producto.nombre_p }}">
+                </div>
+                <div>
+                    {{producto.nombre_p}}
+                    {{producto.descripcion_p}}
+                    {{producto.precio}}
+                </div>
+                <button>Añadir al carrito</button>
+            </div>
+        {% empty %}
+            <p>Sin productos disponibles</p>
+        {% endfor %}
+    </article>
+</article>
+{% endblock %}

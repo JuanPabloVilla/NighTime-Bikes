@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<article>
+
+    <article>
+        {% for producto in productos %}
+            <div>
+                <div>
+                    <img src="{{producto.imagen}}" alt="">
+                </div>
+                <div>
+                    {{producto.nombre_p}}
+                    {{producto.descripcion_p}}
+                    {{producto.precio}}
+                </div>
+            </div>
+            <div>
+                <button>-</button> 
+                <button>Eliminar Producto</button>
+                <button>+</button>
+            </div>
+        {% empty %}
+            <p>Sin productos disponibles</p>
+        {% endfor %}
+    </article>
+    
+    <article>
+        <div>
+            <h3>Resumen del carrito</h3>
+            <p>Subtotal</p>
+            <h4>Total</h4>
+        </div>
+    </article>
+</article>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="catalog-section">
+    <!-- Barra de filtros -->
+    <div class="filter-bar">
+        <input type="text" placeholder="Buscar por nombre...">
+        <select>
+            <option>Filtrar por Categoría</option>
+        </select>
+        <select>
+            <option>Ordenar por Precio</option>
+        </select>
+    </div>
+
+    <!-- Grid de Productos -->
+    <div class="products-grid">
+        {% for producto in productos %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_p }}">
+                    {% else %}
+                        <div class="no-image">Sin imagen</div>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3>{{ producto.nombre_p }}</h3>
+                    <p class="product-price">${{ producto.precio }}</p>
+                    <button class="btn-add">Añadir al carrito</button>
+                </div>
+            </div>
+        {% empty %}
+            <p class="no-products">Sin productos disponibles</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

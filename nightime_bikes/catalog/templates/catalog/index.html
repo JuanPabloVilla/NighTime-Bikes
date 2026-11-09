@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="index-container">
+    <!-- Banner Principal -->
+    <article class="hero-banner">
+        <div class="hero-icon">🚴</div>
+        <h1>Dominaremos las noches a dos ruedas</h1>
+    </article>
+
+    <!-- Bicicletas -->
+    <article class="category-row">
+        <div class="category-info">
+            <div class="category-icon">🚲</div>
+            <h3>Bicicletas</h3>
+            <p>Como el viento en la oscuridad</p>
+        </div>
+        <div class="category-products">
+            {% for bici in bicis %}
+                <div class="product-card">
+                    <p>{{ bici.nombre_p }}</p>
+                    <p>Precio: ${{ bici.precio }}</p>
+                </div>
+            {% empty %}
+                <p>Sin productos disponibles</p>
+            {% endfor %}
+        </div>
+    </article>
+
+    <!-- Accesorios -->
+    <article class="category-row">
+        <div class="category-info">
+            <div class="category-icon">📦</div>
+            <h3>Accesorios</h3>
+            <p>Infaltables de la noche</p>
+        </div>
+        <div class="category-products">
+            {% for acc in accesorios %}
+                <div class="product-card">
+                    <p>{{ acc.nombre_p }}</p>
+                    <p>Precio: ${{ acc.precio }}</p>
+                </div>
+            {% empty %}
+                <p>Sin productos disponibles</p>
+            {% endfor %}
+        </div>
+    </article>
+
+    <!-- Indumentaria -->
+    <article class="category-row">
+        <div class="category-info">
+            <div class="category-icon">👕</div>
+            <h3>Indumentaria</h3>
+            <p>Debes lucir bien mientras montas</p>
+        </div>
+        <div class="category-products">
+            {% for ind in indumentaria %}
+                <div class="product-card">
+                    <p>{{ ind.nombre_p }}</p>
+                    <p>Precio: ${{ ind.precio }}</p>
+                </div>
+            {% empty %}
+                <p>Sin productos disponibles</p>
+            {% endfor %}
+        </div>
+    </article>
+</section>
+{% endblock %}
