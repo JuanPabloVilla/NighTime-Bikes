@@ -24,7 +24,7 @@ def mostrar_bicis(request):
     contexto = {
         'productos': lista_bicis,
     }
-    return render(request, 'catalog/index.html', contexto)
+    return render(request, 'catalog/bicis.html', contexto)
 
 #Views para mostrar los productos en el templates lista accesorios
 def mostrar_accesorios(request):
