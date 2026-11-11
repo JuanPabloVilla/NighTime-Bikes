@@ -1,0 +1,279 @@
+/* Etiquetas CSS para el catalog - DeepSeek */
+
+/* --- VARIABLES DE COLOR (Basados en tu wireframe) --- */
+:root {
+    --morado-oscuro: #2e1a47;
+    --morado-claro: #4a2c6d;
+    --fondo-gris: #d3d3d3;
+    --blanco: #ffffff;
+}
+
+/* --- RESET BÁSICO --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: var(--fondo-gris);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    max-width: 1200px;
+    margin: 20px auto;
+    width: 100%;
+    padding: 0 20px;
+}
+
+/* --- HEADER --- */
+.main-header {
+    background-color: var(--morado-oscuro);
+    color: var(--blanco);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+}
+
+.logo a {
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.main-nav a {
+    color: var(--blanco);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9rem;
+}
+
+/* --- FOOTER --- */
+.main-footer {
+    background-color: var(--morado-oscuro);
+    color: var(--blanco);
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    font-size: 0.8rem;
+}
+
+.footer-social i {
+    margin-left: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* --- INDEX (Layout de filas horizontales) --- */
+.index-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hero-banner {
+    background-color: #e6e6e6;
+    border: 2px solid var(--morado-oscuro);
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.hero-banner .hero-icon {
+    background-color: var(--morado-oscuro);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 2rem;
+}
+
+.category-row {
+    background-color: #e6e6e6;
+    border: 2px solid var(--morado-oscuro);
+    border-radius: 15px;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    align-items: center;
+}
+
+.category-info {
+    flex: 1;
+    text-align: center;
+    border-right: 2px solid var(--morado-oscuro);
+    padding-right: 20px;
+}
+
+.category-products {
+    flex: 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+/* --- CATÁLOGO (Grid de 4 columnas) --- */
+/* --- CATÁLOGO (Grid de 4 columnas) --- */
+.filter-article {
+    margin-bottom: 30px; 
+}
+
+.filter-bar {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Estilos para el input de búsqueda */
+.input-search {
+    flex: 1; /* Ocupa todo el espacio disponible */
+    padding: 12px 20px;
+    border: 2px solid var(--morado-oscuro);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    background-color: var(--blanco);
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.input-search:focus {
+    box-shadow: 0 0 8px rgba(74, 44, 109, 0.4); 
+}
+
+/* Estilos para el selector de precio */
+.select-order {
+    padding: 12px 20px;
+    border: 2px solid var(--morado-oscuro);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    background-color: var(--blanco);
+    color: #333;
+    cursor: pointer;
+    min-width: 220px;
+    transition: all 0.3s ease;
+}
+
+.select-order:focus, .select-order:hover {
+    box-shadow: 0 0 8px rgba(74, 44, 109, 0.4);
+}
+
+/* Estilos para el nuevo botón Aplicar */
+.btn-aplicar {
+    background-color: var(--morado-oscuro);
+    color: var(--blanco);
+    border: 2px solid var(--morado-oscuro);
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-aplicar:hover {
+    background-color: var(--morado-claro); 
+    /* O si prefieres que cambie a blanco y texto morado, puedes usar:
+       background-color: var(--blanco);
+       color: var(--morado-oscuro); */
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    gap: 20px;
+}
+
+
+/* Etiquetas CSS para el carrito y las facturas - DeepSeek */
+
+/* --- ESTILOS DEL CARRITO --- */
+.cart-container, .history-container, .invoice-container {
+    background-color: #e6e6e6;
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid var(--morado-oscuro);
+}
+
+.cart-item-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-qty {
+    background-color: var(--morado-oscuro);
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.btn-delete {
+    color: red;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.cart-summary {
+    text-align: right;
+    margin-top: 20px;
+    border-top: 2px solid var(--morado-oscuro);
+    padding-top: 20px;
+}
+
+.btn-checkout {
+    background-color: var(--morado-oscuro);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* --- ESTILOS DE TABLAS (Facturas) --- */
+.invoices-table, .invoice-details {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.invoices-table th, .invoice-details th {
+    background-color: var(--morado-oscuro);
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.invoices-table td, .invoice-details td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.invoice-total {
+    text-align: right;
+    margin-top: 30px;
+}

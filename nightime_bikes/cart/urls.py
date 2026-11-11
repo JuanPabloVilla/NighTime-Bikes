@@ -13,4 +13,5 @@ urlpatterns = [
     #La generacion de factura
     path('factura/', views.generar_factura, name='generar_factura'),
     path('factura/<int:carrito_id>/', views.ver_factura, name='ver_factura'),
+    path('facturas/', views.historial_facturas, name='historial_facturas'),
 ]

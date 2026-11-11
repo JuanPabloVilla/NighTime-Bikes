@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 
 # Tabla de las categorias base de datos
+# Las categorias seran usadas para trabajar los separar por tipos de productos (bicis, indumentaria, accesorios)
 class categorias(models.Model):
     nombre_categoria = models.CharField(max_length=50)
     descripcion_c = models.TextField(blank=True, null=True)
