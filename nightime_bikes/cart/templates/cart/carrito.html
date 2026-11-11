@@ -1,36 +1,48 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<article>
+<section class="cart-container">
+    <h2>Tu Carrito de Compras</h2>
 
-    <article>
-        {% for producto in productos %}
-            <div>
-                <div>
-                    <img src="{{producto.imagen}}" alt="">
+    {% if items %}
+        <div class="cart-items-list">
+            {% for item in items %}
+                <div class="cart-item-card">
+                    <div class="cart-item-image">
+                        {% if item.producto.imagen %}
+                            <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre_p }}">
+                        {% endif %}
+                    </div>
+                    <div class="cart-item-info">
+                        <h3>{{ item.producto.nombre_p }}</h3>
+                        <p>Precio: ${{ item.precio_unitario }}</p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <!-- Botones para sumar/restar -->
+                        <a href="{% url 'actualizar_cantidad' item.id 'restar' %}" class="btn-qty">-</a>
+                        <span class="item-qty">{{ item.cantidad }}</span>
+                        <a href="{% url 'actualizar_cantidad' item.id 'sumar' %}" class="btn-qty">+</a>
+                    </div>
+                    <div class="cart-item-total">
+                        <p>Subtotal: ${{ item.cantidad|floatformat:2 }}</p> <!-- Ojo, aquí podrías calcular el subtotal -->
+                        <a href="{% url 'eliminar_item' item.id %}" class="btn-delete">Eliminar</a>
+                    </div>
                 </div>
-                <div>
-                    {{producto.nombre_p}}
-                    {{producto.descripcion_p}}
-                    {{producto.precio}}
-                </div>
-            </div>
-            <div>
-                <button>-</button> 
-                <button>Eliminar Producto</button>
-                <button>+</button>
-            </div>
-        {% empty %}
-            <p>Sin productos disponibles</p>
-        {% endfor %}
-    </article>
-    
-    <article>
-        <div>
-            <h3>Resumen del carrito</h3>
-            <p>Subtotal</p>
-            <h4>Total</h4>
+            {% endfor %}
         </div>
-    </article>
-</article>
+
+        <div class="cart-summary">
+            <h3>Total a pagar: ${{ total }}</h3>
+            <form action="{% url 'generar_factura' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn-checkout">Finalizar Compra y Pagar</button>
+            </form>
+        </div>
+    {% else %}
+        <div class="empty-cart">
+            <p>Tu carrito está vacío. ¡Ve a buscar algunas ruedas!</p>
+            <a href="{% url 'mostrar_productos' %}" class="btn-add">Volver a la tienda</a>
+        </div>
+    {% endif %}
+</section>
 {% endblock %}
