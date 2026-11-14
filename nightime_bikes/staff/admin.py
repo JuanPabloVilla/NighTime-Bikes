@@ -1,7 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
-from django.contrib import admin
 from .models import Empleado, Horario
 
 
@@ -17,4 +14,4 @@ class EmpleadoAdmin(admin.ModelAdmin):
     list_display = ('usuario', 'cedula', 'telefono', 'estado', 'horario')
     list_filter = ('estado', 'horario')
     search_fields = ('usuario', 'cedula')
-
+    list_editable = ('estado', 'horario')
