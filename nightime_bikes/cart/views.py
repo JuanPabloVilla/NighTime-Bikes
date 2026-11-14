@@ -118,3 +118,8 @@ def ver_factura(request, carrito_id):
     items = factura.items.all()
     
     return render(request, 'cart/factura.html', {'factura': factura, 'items': items})
+
+@login_required(login_url='login')
+def historial_facturas(request):
+    facturas = Carrito.objects.filter(usuario=request.user.perfil, estado_pedido=False).order_by('-fecha_pedido')
+    return render(request, 'cart/historial.html', {'facturas':facturas})

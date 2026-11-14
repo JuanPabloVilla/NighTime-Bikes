@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="invoice-container">
+    <div class="invoice-header">
+        <h2>Factura #{{ factura.id }}</h2>
+        <p>Fecha: {{ factura.fecha_pedido|date:"d/m/Y H:i" }}</p>
+        <p>Cliente: {{ request.user.username }}</p>
+    </div>
+
+    <table class="invoice-details">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.producto.nombre_p }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>${{ item.precio_unitario }}</td>
+                    <!-- Aquí sí calculamos el subtotal -->
+                    <td>${{ item.cantidad|mul:item.precio_unitario }}</td> 
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="invoice-total">
+        <h3>Total Pagado: ${{ factura.total_pagar }}</h3>
+        <p>¡Gracias por tu compra en NightTime Bikes!</p>
+        <a href="{% url 'historial_facturas' %}" class="btn-add">Volver al Historial</a>
+    </div>
+</section>
+{% endblock %}

@@ -2,12 +2,12 @@
     <div class="logo">
         <a href="{% url 'mostrar_productos' %}">🚴‍♂️ NightTime Bikes</a>
     </div>
+    <!-- Navbar principal -->
     <nav class="main-nav">
-        <!-- Nota: Asegúrate de tener estas rutas creadas en tu urls.py -->
         <a href="{% url 'mostrar_productos' %}">Inicio</a>
-        <a href="#">Bicicletas</a>
-        <a href="#">Accesorios</a>
-        <a href="#">Indumentaria</a>
+        <a href="{% url 'mostrar_bicis' %}">Bicicletas</a>  
+        <a href="{% url 'mostrar_accesorios' %}">Accesorios</a>
+        <a href="{% url 'mostrar_indumentaria' %}">Indumentaria</a>
         <a href="{% url 'ver_carrito' %}">Carrito</a>
         <a href="#">Facturas</a>
     </nav>
