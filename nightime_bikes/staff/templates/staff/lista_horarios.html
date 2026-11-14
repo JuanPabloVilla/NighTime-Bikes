@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Horarios registrados (Total: {{ total_registros }})</h2>
+
+<p>
+    <a href="{% url 'crear_horario' %}">Registrar horario</a> |
+    <a href="{% url 'lista_empleados' %}">Ver empleados</a>
+</p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <th>Nombre</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Acciones</th>
+    </tr>
+    {% for horario in horarios %}
+    <tr>
+        <td><strong>{{ horario.nombre_h }}</strong></td>
+        <td>{{ horario.tiempo_inicial|time:"H:i" }}</td>
+        <td>{{ horario.tiempo_final|time:"H:i" }}</td>
+        <td><a href="{% url 'editar_horario' horario.pk %}">Editar</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" style="text-align: center;">No hay horarios registrados.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

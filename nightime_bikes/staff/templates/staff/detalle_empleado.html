@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Ficha de {{ empleado.usuario }}</h2>
+<p><strong>Cedula:</strong> {{ empleado.cedula }}</p>
+<p><strong>Rol:</strong> {{ empleado.rol }}</p>
+<p><strong>Telefono:</strong> {{ empleado.telefono|default:"Sin datos" }}</p>
+<p><strong>Direccion:</strong> {{ empleado.direccion|default:"Sin datos" }}</p>
+<p><strong>Estado:</strong> {{ empleado.estado }}</p>
+<p><strong>Horario:</strong> {{ empleado.horario|default:"Sin horario asignado" }}</p>
+<a href="{% url 'editar_empleado' empleado.pk %}">Editar</a> |
+<a href="{% url 'lista_empleados' %}">Volver al listado</a>
+{% endblock %}

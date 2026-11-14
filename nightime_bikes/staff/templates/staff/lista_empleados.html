@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Empleados registrados (Total: {{ total_registros }})</h2>
+
+<form method="GET">
+    <input type="text" name="q" value="{{ query }}" placeholder="Buscar por usuario o cedula...">
+    <button type="submit">Buscar</button>
+    {% if query %}<a href="{% url 'lista_empleados' %}">Limpiar</a>{% endif %}
+</form>
+
+<p>
+    <a href="{% url 'crear_empleado' %}">Registrar empleado</a> |
+    <a href="{% url 'lista_horarios' %}">Ver horarios</a>
+</p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <th>Usuario</th>
+        <th>Cedula</th>
+        <th>Estado</th>
+        <th>Horario</th>
+        <th>Acciones</th>
+    </tr>
+    {% for empleado in page_obj %}
+    <tr>
+        <td><strong>{{ empleado.usuario }}</strong></td>
+        <td>{{ empleado.cedula }}</td>
+        <td>{{ empleado.estado }}</td>
+        <td>{{ empleado.horario|default:"Sin horario" }}</td>
+        <td>
+            <a href="{% url 'detalle_empleado' empleado.pk %}">Ver ficha</a> |
+            <a href="{% url 'editar_empleado' empleado.pk %}">Editar</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5" style="text-align: center;">No hay empleados registrados con ese criterio.</td></tr>
+    {% endfor %}
+</table>
+
+{% if page_obj.has_other_pages %}
+<p style="text-align: center;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">&laquo; Anterior</a>
+    {% endif %}
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Siguiente &raquo;</a>
+    {% endif %}
+</p>
+{% endif %}
+{% endblock %}
