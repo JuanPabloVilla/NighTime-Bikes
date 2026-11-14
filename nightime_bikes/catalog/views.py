@@ -2,8 +2,11 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 #Importar la informacion del models
+<<<<<<< HEAD
+=======
 from .forms import ProductoForm
 from .models import productos, categorias
+>>>>>>> main
 from .models import productos
 
 # Create your views here.
@@ -92,6 +95,10 @@ def mostrar_indumentaria(request):
         'buscar': buscar,
         'ordenar': ordenar,
     }
+<<<<<<< HEAD
+
+    return render(request, 'catalog/indumentaria.html', contexto)
+=======
     return render(request, 'catalog/indumentaria.html', contexto)
 
 
@@ -142,3 +149,4 @@ def editar_producto(request, pk):
                   {'form': form, 'titulo': f'Editar producto: {producto.nombre_p}'})
 
     return render(request, 'catalog/indumentaria.html', contexto)
+>>>>>>> main
