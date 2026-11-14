@@ -10,4 +10,8 @@ urlpatterns = [
     path('accesorios/', views.mostrar_accesorios, name='mostrar_accesorios'),
     # Pagina para mostrar la indumentaria
     path('indumentaria/', views.mostrar_indumentaria, name='mostrar_indumentaria'),
+    # ---- Parte para la gestion (admin): productos ----
+    path('productos/', views.lista_productos, name='lista_productos'),
+    path('productos/crear/', views.crear_producto, name='crear_producto'),
+    path('productos/editar/<int:pk>/', views.editar_producto, name='editar_producto'),
 ]
