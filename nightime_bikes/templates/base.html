@@ -1,3 +1,5 @@
+<!-- Base del html. Esta sera la conexion directa para herencia con los demas templates -->
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,11 +13,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    {% includes 'header.html' %}
+    <!-- Conexion con el header -->
+    {% include 'header.html' %}
+    <!-- Bloque de contenido de herencia -->
     <main>
         {% block content %}
         {% endblock %}
     </main>
-    {% includes 'footer.html' %}
+    <!-- conexion con el footer -->
+    {% include 'footer.html' %}
 </body>
 </html>

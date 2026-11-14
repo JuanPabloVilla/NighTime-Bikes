@@ -1,26 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<article>
-    <article>
-
+<section class="catalog-section">
+    <article class="filter-article">
+        <!-- Filtros -->
+        <form method="GET" action="" class="filter-bar">
+            <input type="text" name="buscar" class="input-search" placeholder="Buscar por nombre..." value="{{ buscar|default:'' }}">
+            
+            <!-- Orden por precio -->
+            <select name="ordenar" class="select-order">
+                <option value="">Ordenar por Precio</option>
+                <option value="precio_asc" {% if ordenar == 'precio_asc' %}selected{% endif %}>Menor a Mayor</option>
+                <option value="precio_desc" {% if ordenar == 'precio_desc' %}selected{% endif %}>Mayor a Menor</option>
+            </select>
+            
+            <!-- Botón para aplicar la búsqueda -->
+            <button type="submit" class="btn-aplicar">Aplicar</button>
+        </form>
     </article>
-    <article>
+
+    <!-- Grid de Productos -->
+    <article class="products-grid">
         {% for producto in productos %}
-            <div>
-                <div>
-                    <img src="{{producto.imagen.urls}}" alt="{{ producto.nombre_p }}">
+            <div class="product-card">
+                <div class="product-image">
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_p }}">
+                    {% else %}
+                        <div class="no-image">Sin imagen</div>
+                    {% endif %}
                 </div>
-                <div>
-                    {{producto.nombre_p}}
-                    {{producto.descripcion_p}}
-                    {{producto.precio}}
+                <div class="product-info">
+                    <h3>{{ producto.nombre_p }}</h3>
+                    <p class="product-price">${{ producto.precio }}</p>
+                    <form action="{% url 'agregar_al_carrito' producto.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-add">Añadir al carrito</button>
+                    </form>
                 </div>
-                <button>Añadir al carrito</button>
             </div>
         {% empty %}
-            <p>Sin productos disponibles</p>
+            <p class="no-products">Sin productos disponibles</p>
         {% endfor %}
     </article>
-</article>
+</section>
 {% endblock %}

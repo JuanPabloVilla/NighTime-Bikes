@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="history-container">
+    <h2>Mis Facturas</h2>
+
+    <table class="invoices-table">
+        <thead>
+            <tr>
+                <th>N° Factura</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for factura in facturas %}
+                <tr>
+                    <td>#{{ factura.id }}</td>
+                    <!-- Formato de fecha legible: Día/Mes/Año Hora -->
+                    <td>{{ factura.fecha_pedido|date:"d/m/Y H:i" }}</td>
+                    <td>${{ factura.total_pagar }}</td>
+                    <td>
+                        <a href="{% url 'ver_factura' factura.id %}" class="btn-view">Ver Detalle</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">Aún no has realizado ninguna compra.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

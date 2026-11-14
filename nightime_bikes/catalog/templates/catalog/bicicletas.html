@@ -2,19 +2,25 @@
 
 {% block content %}
 <section class="catalog-section">
-    <!-- Barra de filtros -->
-    <div class="filter-bar">
-        <input type="text" placeholder="Buscar por nombre...">
-        <select>
-            <option>Filtrar por Categoría</option>
-        </select>
-        <select>
-            <option>Ordenar por Precio</option>
-        </select>
-    </div>
+    <article class="filter-article">
+        <!-- Filtros -->
+        <form method="GET" action="" class="filter-bar">
+            <input type="text" name="buscar" class="input-search" placeholder="Buscar por nombre..." value="{{ buscar|default:'' }}">
+            
+            <!-- Orden por precio -->
+            <select name="ordenar" class="select-order">
+                <option value="">Ordenar por Precio</option>
+                <option value="precio_asc" {% if ordenar == 'precio_asc' %}selected{% endif %}>Menor a Mayor</option>
+                <option value="precio_desc" {% if ordenar == 'precio_desc' %}selected{% endif %}>Mayor a Menor</option>
+            </select>
+            
+            <!-- Botón para aplicar la búsqueda -->
+            <button type="submit" class="btn-aplicar">Aplicar</button>
+        </form>
+    </article>
 
     <!-- Grid de Productos -->
-    <div class="products-grid">
+    <article class="products-grid">
         {% for producto in productos %}
             <div class="product-card">
                 <div class="product-image">
@@ -36,6 +42,6 @@
         {% empty %}
             <p class="no-products">Sin productos disponibles</p>
         {% endfor %}
-    </div>
+    </article>
 </section>
 {% endblock %}
