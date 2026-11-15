@@ -3,7 +3,7 @@
 {% block content %}
 <section class="history-container">
     <h2>Mis Facturas</h2>
-
+    <!-- tabla completa generada en el apartado de facturas -->
     <table class="invoices-table">
         <thead>
             <tr>
@@ -20,10 +20,12 @@
                     <!-- Formato de fecha legible: Día/Mes/Año Hora -->
                     <td>{{ factura.fecha_pedido|date:"d/m/Y H:i" }}</td>
                     <td>${{ factura.total_pagar }}</td>
+                    <!-- Para ir a la informacion completa de la factura y los objetos comprados -->
                     <td>
                         <a href="{% url 'ver_factura' factura.id %}" class="btn-view">Ver Detalle</a>
                     </td>
                 </tr>
+            <!-- Mensaje para cuando el apartado de facturas este vacio -->
             {% empty %}
                 <tr>
                     <td colspan="4" class="text-center">Aún no has realizado ninguna compra.</td>

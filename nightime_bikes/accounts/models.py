@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 #Tabla perfil para trabajar con los usuarios en la base de datos
 
 class perfil(models.Model):
@@ -11,7 +12,7 @@ class perfil(models.Model):
     )
     
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    # Al crear cuenta no se puede seleccionar el rol, para empleados y admins el rol debe ser otorgado
+    # Al crear cuenta no se puede seleccionar el rol, para admins el rol debe ser otorgado
     rol = models.CharField(max_length=20, choices=ROLE_CHOICES, default='cliente') 
     cedula = models.CharField(max_length=20, blank=True, null=True)
     telefono = models.CharField(max_length=20, blank=True, null=True)

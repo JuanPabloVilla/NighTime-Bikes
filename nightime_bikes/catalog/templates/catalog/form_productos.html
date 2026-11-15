@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-    <h2>{{ titulo }}</h2>
+<div class="auth-container" style="max-width: 600px;">
+    <h2 style="text-align: center; color: var(--morado-oscuro);">{{ titulo }}</h2>
+    
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar Cambios</button>
-        <a href="{% url 'lista_productos' %}">Cancelar</a>
+        <div class="form-fields">
+            {{ form.as_p }}
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="submit" class="btn-admin-add" style="flex: 1; border: none; font-size: 1rem;">Guardar Cambios</button>
+            <a href="{% url 'lista_productos' %}" class="btn-delete" style="flex: 1; text-align: center; padding: 12px; border: 2px solid #f44336; border-radius: 8px; text-decoration: none; font-weight: bold; color: #f44336;">Cancelar</a>
+        </div>
     </form>
 </div>
 {% endblock %}

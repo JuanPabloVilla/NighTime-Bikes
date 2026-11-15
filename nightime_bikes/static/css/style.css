@@ -48,13 +48,6 @@ main {
     font-weight: bold;
 }
 
-.main-nav a {
-    color: var(--blanco);
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 0.9rem;
-}
-
 /* --- FOOTER --- */
 .main-footer {
     background-color: var(--morado-oscuro);
@@ -70,6 +63,73 @@ main {
     font-size: 1.2rem;
     cursor: pointer;
 }
+
+/* --- HEADER ACTUALIZADO (Navegación) --- */
+.main-nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 30px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #a29bfe;
+    border-bottom: 2px solid #a29bfe;
+    transform: translateY(-2px);
+}
+
+.nav-links a.active {
+    color: #a29bfe;
+    font-weight: bold;
+    border-bottom: 2px solid #a29bfe;
+}
+
+/* Sesión (Login/Logout) */
+.nav-session {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.user-greeting {
+    color: var(--blanco);
+    font-size: 0.9rem;
+}
+
+.btn-logout, .btn-login {
+    background: transparent;
+    border: none;
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0;
+}
+
+.btn-logout:hover { color: #ff6b6b; }
+.btn-login:hover { color: #a29bfe; }
 
 /* --- INDEX (Layout de filas horizontales) --- */
 .index-container {
@@ -120,8 +180,7 @@ main {
     gap: 15px;
 }
 
-/* --- CATÁLOGO (Grid de 4 columnas) --- */
-/* --- CATÁLOGO (Grid de 4 columnas) --- */
+/* --- CATÁLOGO (Filtros y Grid de Productos) --- */
 .filter-article {
     margin-bottom: 30px; 
 }
@@ -132,9 +191,9 @@ main {
     align-items: center;
 }
 
-/* Estilos para el input de búsqueda */
+/* Input de búsqueda */
 .input-search {
-    flex: 1; /* Ocupa todo el espacio disponible */
+    flex: 1;
     padding: 12px 20px;
     border: 2px solid var(--morado-oscuro);
     border-radius: 8px;
@@ -149,7 +208,7 @@ main {
     box-shadow: 0 0 8px rgba(74, 44, 109, 0.4); 
 }
 
-/* Estilos para el selector de precio */
+/* Selector de orden */
 .select-order {
     padding: 12px 20px;
     border: 2px solid var(--morado-oscuro);
@@ -167,7 +226,7 @@ main {
     box-shadow: 0 0 8px rgba(74, 44, 109, 0.4);
 }
 
-/* Estilos para el nuevo botón Aplicar */
+/* Botón Aplicar (Catálogo) */
 .btn-aplicar {
     background-color: var(--morado-oscuro);
     color: var(--blanco);
@@ -182,21 +241,15 @@ main {
 
 .btn-aplicar:hover {
     background-color: var(--morado-claro); 
-    /* O si prefieres que cambie a blanco y texto morado, puedes usar:
-       background-color: var(--blanco);
-       color: var(--morado-oscuro); */
 }
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
-
-/* Etiquetas CSS para el carrito y las facturas - DeepSeek */
-
-/* --- ESTILOS DEL CARRITO --- */
+/* --- ESTILOS DEL CARRITO Y FACTURAS --- */
 .cart-container, .history-container, .invoice-container {
     background-color: #e6e6e6;
     padding: 30px;
@@ -253,7 +306,7 @@ main {
     margin-top: 10px;
 }
 
-/* --- ESTILOS DE TABLAS (Facturas) --- */
+/* Tablas de Facturas */
 .invoices-table, .invoice-details {
     width: 100%;
     border-collapse: collapse;
@@ -276,4 +329,274 @@ main {
 .invoice-total {
     text-align: right;
     margin-top: 30px;
+}
+
+/* --- ESTILOS PARA LOGIN Y REGISTRO --- */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #e6e6e6;
+    padding: 40px;
+    border-radius: 15px;
+    border: 2px solid var(--morado-oscuro);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.auth-container h2 {
+    text-align: center;
+    color: var(--morado-oscuro);
+    margin-bottom: 25px;
+}
+
+.auth-container form p {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-container form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.auth-container form input, 
+.auth-container form select {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.auth-container form input:focus,
+.auth-container form select:focus {
+    border-color: var(--morado-oscuro);
+}
+
+.auth-container button[type="submit"] {
+    width: 100%;
+    background-color: var(--morado-oscuro);
+    color: var(--blanco);
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.auth-container button[type="submit"]:hover {
+    background-color: var(--morado-claro);
+}
+
+.auth-container p:last-child {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.auth-container a {
+    color: var(--morado-oscuro);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
+}
+
+/* --- ESTILOS DEL PANEL DE ADMINISTRACIÓN (STAFF) --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--morado-oscuro);
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--morado-oscuro);
+}
+
+/* Botón de añadir en el admin (Nuevo Empleado / Horario) */
+.btn-admin-add {
+    background-color: var(--morado-oscuro);
+    color: var(--blanco) !important;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-admin-add:hover {
+    background-color: var(--morado-claro);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* --- NUEVA BARRA DE BÚSQUEDA PARA EL ADMIN --- */
+.admin-search-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* El input crece para llenar el espacio */
+.admin-search-bar .input-search {
+    flex: 1;
+}
+
+/* Botón de buscar en el admin */
+.btn-search-admin {
+    background-color: var(--morado-oscuro);
+    color: var(--blanco);
+    border: 2px solid var(--morado-oscuro);
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    height: max-content;
+    flex: none; 
+}
+
+.btn-search-admin:hover {
+    background-color: var(--morado-claro);
+}
+
+/* Tablas del panel de administración */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.admin-table th {
+    background-color: var(--morado-oscuro);
+    color: var(--blanco);
+    padding: 12px;
+    text-align: left;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+}
+
+.admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Botones de acción en la tabla (Editar / Ver) */
+.btn-edit {
+    color: #2196F3;
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.btn-edit:hover {
+    text-decoration: underline;
+}
+
+/* --- CORRECCIÓN BUSCADOR ADMIN (anula estilos de .auth-container) --- */
+.auth-container .admin-search-bar input.input-search {
+    width: auto;        /* anula el width: 100% del login */
+    flex: 2;
+    min-width: 0;
+    padding: 12px 20px;
+    border: 2px solid var(--morado-oscuro);
+}
+
+.auth-container .admin-search-bar button.btn-search-admin {
+    width: auto;        /* anula el width: 100% del login */
+    margin-top: 0;      /* anula el margin-top: 10px del login */
+    padding: 10px 25px;
+    font-size: 1rem;
+    flex: none;
+}
+
+.auth-container .admin-search-bar button.btn-search-admin:hover {
+    background-color: var(--morado-claro);
+}
+
+.auth-container .admin-search-bar {
+    flex-wrap: wrap;
+}
+
+/* --- ARREGLO DE LAS IMÁGENES DE PRODUCTOS --- */
+.product-image {
+    background-color: #f9f9f9;
+    height: 220px; /* Altura fija para todas las tarjetas */
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Corta lo que se salga */
+    border: 1px solid #e0e0e0;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 'contain' hace que la imagen se vea completa sin deformarse */
+    padding: 10px; /* Un pequeño margen interno */
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Separación entre título, precio y botón */
+    text-align: center; /* Centra el texto en las tarjetas */
+}
+
+.product-price {
+    font-weight: bold;
+    color: var(--morado-claro);
+    font-size: 1.1rem;
+}
+
+/* --- ALERTAS DEL SISTEMA (STOCK, ERRORES) --- */
+.messages-container {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Alerta de error (Rojo) */
+.alert-error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 2px solid #c62828;
+}
+
+/* Alerta de éxito (Verde) */
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
 }

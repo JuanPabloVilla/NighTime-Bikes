@@ -30,6 +30,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     ]
 
+# Variables para el manejo de la sesion
+LOGIN_REDIRECT_URL = 'despues_login'
+LOGIN_URL = 'login' # Para que si intenta entrar al carrito sin loguearse, lo mande al login
+LOGOUT_REDIRECT_URL = 'mostrar_productos'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
@@ -54,6 +59,7 @@ INSTALLED_APPS = [
     'cart',
     'catalog',
     'accounts',
+    'staff',
 ]
 
 MIDDLEWARE = [

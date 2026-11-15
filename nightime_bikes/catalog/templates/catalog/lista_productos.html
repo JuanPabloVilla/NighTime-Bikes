@@ -1,48 +1,79 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Productos registrados (Total: {{ total_registros }})</h2>
+<section class="admin-panel">
+    <div class="auth-container" style="max-width: 1000px;">
+        <div class="section-header">
+            <h2>Productos Registrados (Total: {{ total_registros }})</h2>
+            <a href="{% url 'crear_producto' %}" class="btn-admin-add">+ Nuevo Producto</a>
+        </div>
 
-<form method="GET">
-    <input type="text" name="q" value="{{ query }}" placeholder="Buscar producto o categoria...">
-    <button type="submit">Buscar</button>
-    {% if query %}<a href="{% url 'lista_productos' %}">Limpiar</a>{% endif %}
-</form>
+        <!-- Buscador -->
+        <form method="GET" class="admin-search-bar" style="margin-bottom: 25px;">
+            <input type="text" name="q" class="input-search" value="{{ query }}" placeholder="Buscar producto o categoría...">
+            <button type="submit" class="btn-search-admin">Buscar</button>
+            {% if query %}
+                <a href="{% url 'lista_productos' %}" style="color: #f44336; font-weight: bold; align-self: center; margin-left: 10px;">Limpiar</a>
+            {% endif %}
+        </form>
 
-<p><a href="{% url 'crear_producto' %}">Registrar producto</a></p>
+        <!-- Tabla -->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in page_obj %}
+                <tr>
+                    <td>
+                        <!-- Miniatura de la imagen -->
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_p }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                        {% else %}
+                            <span style="font-size: 0.8rem; color: #888;">Sin foto</span>
+                        {% endif %}
+                    </td>
+                    <td><strong>{{ producto.nombre_p }}</strong></td>
+                    <td>{{ producto.categoria.nombre_categoria }}</td>
+                    <td>${{ producto.precio }}</td>
+                    <td>{{ producto.stock }}</td>
+                    <td>
+                        {% if producto.estado %}
+                            <span style="color: green;">✅ Disponible</span>
+                        {% else %}
+                            <span style="color: red;">❌ No disponible</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'editar_producto' producto.pk %}" class="btn-edit">Editar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" style="text-align: center; padding: 20px;">No hay productos registrados.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-    <tr>
-        <th>Nombre</th>
-        <th>Categoria</th>
-        <th>Precio</th>
-        <th>Stock</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-    </tr>
-    {% for producto in page_obj %}
-    <tr>
-        <td><strong>{{ producto.nombre_p }}</strong></td>
-        <td>{{ producto.categoria }}</td>
-        <td>${{ producto.precio }}</td>
-        <td>{{ producto.stock }}</td>
-        <td>{% if producto.estado %}Disponible{% else %}No disponible{% endif %}</td>
-        <td><a href="{% url 'editar_producto' producto.pk %}">Editar</a></td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="6" style="text-align: center;">No hay productos registrados con ese criterio.</td></tr>
-    {% endfor %}
-</table>
-
-{% if page_obj.has_other_pages %}
-<p style="text-align: center;">
-    {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">&laquo; Anterior</a>
-    {% endif %}
-    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Siguiente &raquo;</a>
-    {% endif %}
-</p>
-{% endif %}
+        <!-- Paginación -->
+        {% if page_obj.has_other_pages %}
+        <div style="margin-top: 20px; text-align: center;">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" class="btn-admin-add" style="padding: 8px 15px;">&laquo; Anterior</a>
+            {% endif %}
+            <span style="margin: 0 15px; font-weight: bold;">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" class="btn-admin-add" style="padding: 8px 15px;">Siguiente &raquo;</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

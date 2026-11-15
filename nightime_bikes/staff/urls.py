@@ -4,10 +4,10 @@ from . import views
 urlpatterns = [
     # Para ver la lista de todos los empleados
     path('empleados/', views.lista_empleados, name='lista_empleados'),
-    # Para ver el detalle de un empleado específico
-    path('empleados/<int:pk>/', views.detalle_empleado, name='detalle_empleado'),
     # Para registrar un nuevo empleado
     path('empleados/crear/', views.crear_empleado, name='crear_empleado'),
+    # Para ver el detalle de un empleado específico
+    path('empleados/<int:pk>/', views.detalle_empleado, name='detalle_empleado'),
     # Para editar la información de un empleado existente
     path('empleados/editar/<int:pk>/', views.editar_empleado, name='editar_empleado'),
     # Para ver la lista de horarios registrados
