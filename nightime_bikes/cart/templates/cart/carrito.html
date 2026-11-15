@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <!-- Mensaje de alerta -->
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 <section class="cart-container">
-    <h2>Tu Carrito de Compras</h2>
 
+
+    <!-- Carrito -->
+    <h2>Tu Carrito de Compras</h2>
+    <!-- Condicional para decirle si hay o no productos en el carrito -->
     {% if items %}
+        <!-- Lista de productos en el carrito -->
         <div class="cart-items-list">
             {% for item in items %}
                 <div class="cart-item-card">
@@ -30,7 +44,7 @@
                 </div>
             {% endfor %}
         </div>
-
+        <!-- Para el total y registrar la factura -->
         <div class="cart-summary">
             <h3>Total a pagar: ${{ total }}</h3>
             <form action="{% url 'generar_factura' %}" method="POST">
@@ -39,6 +53,7 @@
             </form>
         </div>
     {% else %}
+        <!-- Mensaje para cuando no hay nada en el carrito -->
         <div class="empty-cart">
             <p>Tu carrito está vacío. ¡Ve a buscar algunas ruedas!</p>
             <a href="{% url 'mostrar_productos' %}" class="btn-add">Volver a la tienda</a>

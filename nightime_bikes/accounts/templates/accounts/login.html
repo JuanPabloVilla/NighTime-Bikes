@@ -1,11 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Iniciar sesion</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Entrar</button>
-</form>
-<p>¿No tienes cuenta? <a href="{% url 'registro' %}">Registrate</a></p>
+<div class="auth-container">
+    <h2>Iniciar Sesión</h2>
+    <!-- En caso de que el usuario no tenga sesion iniciada y trate de ingresar a algo que lo requiera -->
+    {% if messages %}
+        <div class="messages-container" style="margin-bottom: 20px;">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" style="background-color: #ffebee; color: #c62828; border: 2px solid #c62828; padding: 10px; border-radius: 8px; text-align: center; font-size: 0.9rem;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!-- Login -->
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Entrar</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate aquí</a></p>
+</div>
 {% endblock %}

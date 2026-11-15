@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+<!-- Index -->
 {% block content %}
 <section class="index-container">
     <!-- Banner Principal -->
@@ -18,8 +18,21 @@
         <div class="category-products">
             {% for bici in bicis %}
                 <div class="product-card">
-                    <p>{{ bici.nombre_p }}</p>
-                    <p>Precio: ${{ bici.precio }}</p>
+                    <div class="product-image">
+                        {% if bici.imagen %}
+                            <img src="{{ bici.imagen.url }}" alt="{{ bici.nombre_p }}">
+                        {% else %}
+                            <div class="no-image">Sin imagen</div>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <h3>{{ bici.nombre_p }}</h3>
+                        <p class="product-price">${{ bici.precio }}</p>
+                        <form action="{% url 'agregar_al_carrito' bici.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-admin-add" style="width: 100%; border: none; margin-top: 10px;">Añadir al carrito</button>
+                        </form>
+                    </div>
                 </div>
             {% empty %}
                 <p>Sin productos disponibles</p>
@@ -37,8 +50,21 @@
         <div class="category-products">
             {% for acc in accesorios %}
                 <div class="product-card">
-                    <p>{{ acc.nombre_p }}</p>
-                    <p>Precio: ${{ acc.precio }}</p>
+                    <div class="product-image">
+                        {% if acc.imagen %}
+                            <img src="{{ acc.imagen.url }}" alt="{{ acc.nombre_p }}">
+                        {% else %}
+                            <div class="no-image">Sin imagen</div>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <h3>{{ acc.nombre_p }}</h3>
+                        <p class="product-price">${{ acc.precio }}</p>
+                        <form action="{% url 'agregar_al_carrito' acc.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-admin-add" style="width: 100%; border: none; margin-top: 10px;">Añadir al carrito</button>
+                        </form>
+                    </div>
                 </div>
             {% empty %}
                 <p>Sin productos disponibles</p>
@@ -56,8 +82,21 @@
         <div class="category-products">
             {% for ind in indumentaria %}
                 <div class="product-card">
-                    <p>{{ ind.nombre_p }}</p>
-                    <p>Precio: ${{ ind.precio }}</p>
+                    <div class="product-image">
+                        {% if ind.imagen %}
+                            <img src="{{ ind.imagen.url }}" alt="{{ ind.nombre_p }}">
+                        {% else %}
+                            <div class="no-image">Sin imagen</div>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <h3>{{ ind.nombre_p }}</h3>
+                        <p class="product-price">${{ ind.precio }}</p>
+                        <form action="{% url 'agregar_al_carrito' ind.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-admin-add" style="width: 100%; border: none; margin-top: 10px;">Añadir al carrito</button>
+                        </form>
+                    </div>
                 </div>
             {% empty %}
                 <p>Sin productos disponibles</p>

@@ -2,11 +2,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 #Importar la informacion del models
-<<<<<<< HEAD
-=======
 from .forms import ProductoForm
-from .models import productos, categorias
->>>>>>> main
+from .models import productos
 from .models import productos
 
 # Create your views here.
@@ -33,7 +30,7 @@ def mostrar_bicis(request):
     # Para que el buscador funcione
     buscar = request.GET.get('buscar')
     ordenar = request.GET.get('ordenar')
-    
+    # Filtro por precio asc o desc
     if buscar:
         lista_bicis = lista_bicis.filter(nombre_p__icontains=buscar)
     if ordenar == 'precio_asc':
@@ -57,7 +54,7 @@ def mostrar_accesorios(request):
     # Para que el buscador funcione
     buscar = request.GET.get('buscar')
     ordenar = request.GET.get('ordenar')
-    
+    # Filtro por precio asc o desc
     if buscar:
         lista_accesorios = lista_accesorios.filter(nombre_p__icontains=buscar)
     if ordenar == 'precio_asc':
@@ -81,7 +78,7 @@ def mostrar_indumentaria(request):
     # Para que el buscador funcione
     buscar = request.GET.get('buscar')
     ordenar = request.GET.get('ordenar')
-    
+    # Filtro por precio asc o desc
     if buscar:
         lista_indumentaria = lista_indumentaria.filter(nombre_p__icontains=buscar)
     if ordenar == 'precio_asc':
@@ -95,10 +92,6 @@ def mostrar_indumentaria(request):
         'buscar': buscar,
         'ordenar': ordenar,
     }
-<<<<<<< HEAD
-
-    return render(request, 'catalog/indumentaria.html', contexto)
-=======
     return render(request, 'catalog/indumentaria.html', contexto)
 
 
@@ -132,8 +125,7 @@ def crear_producto(request):
             return redirect('lista_productos')
     else:
         form = ProductoForm()
-    return render(request, 'catalog/form_producto.html',
-                  {'form': form, 'titulo': 'Registrar nuevo producto'})
+    return render(request, 'catalog/form_productos.html',{'form': form, 'titulo': 'Registrar nuevo producto'})
 
 
 def editar_producto(request, pk):
@@ -145,8 +137,4 @@ def editar_producto(request, pk):
             return redirect('lista_productos')
     else:
         form = ProductoForm(instance=producto)
-    return render(request, 'catalog/form_producto.html',
-                  {'form': form, 'titulo': f'Editar producto: {producto.nombre_p}'})
-
-    return render(request, 'catalog/indumentaria.html', contexto)
->>>>>>> main
+    return render(request, 'catalog/form_productos.html',{'form': form, 'titulo': f'Editar producto: {producto.nombre_p}'})

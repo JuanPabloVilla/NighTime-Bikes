@@ -5,23 +5,36 @@ from django.contrib.auth.decorators import login_required
 from .models import Carrito, items_carrito
 #Importacion de los modelos de la app catalog
 from catalog.models import productos
-
+# Importacion de la cuenta
+from accounts.models import perfil 
+# para generar mensajes
+from django.contrib import messages
 # Create your views here.
 # _________________________________________________
 # Parte para las views del carrito
 # _________________________________________________
 
-#Para exigir el login del usuario
-@login_required(login_url='accounts/login')
+# Funcion para buscar el perfil del usuario
+def obtener_perfil(usuario):
+    perfil_obj, created = perfil.objects.get_or_create(usuario=usuario)
+    return perfil_obj
+
 def agregarAl_carrito(request, producto_id):
+    # Mensaje por si el usuario no esta registrado/logeado y entra al carrito
+    if not request.user.is_authenticated:
+        messages.warning(request, "Debes iniciar sesión para añadir productos a tu carrito.")
+        return redirect('login')
     #Funcion para agregar los productos al carrito
     if request.method == 'POST':
         
         #Para traer el objeto seleccionado por el id
         producto_seleccionado = get_object_or_404(productos, id=producto_id)
-        
+
+        # para obtener el perfil del usuario
+        perfil_usuario = obtener_perfil(request.user)
+
         #Para crear el carrito del usuario o crearlo si no tiene 
-        carrito, created = Carrito.objects.get_or_create(usuario=request.user.perfil)
+        carrito, created = Carrito.objects.get_or_create(usuario=perfil_usuario, estado_pedido=True)
         
         #Condicional para verificar si el producto estaba o no en el carrito 
         item, item_created = items_carrito.objects.get_or_create(
@@ -37,11 +50,16 @@ def agregarAl_carrito(request, producto_id):
     return redirect('ver_carrito')
 
 #Funcion para mostrar, editar o eliminar los productos en el template
-@login_required(login_url='accounts/login')
 def ver_carrito(request):
-    
+    # Mensaje por si el usuario no esta registrado/logeado y entra al carrito
+    if not request.user.is_authenticated:
+        messages.warning(request, "Debes iniciar sesión para poder ver y gestionar tu carrito.")
+        return redirect('login')
+    # para obtener el perfil del usuario
+    perfil_usuario = obtener_perfil(request.user)
+
     #Para obtener el carrito del usuario
-    carrito, created = Carrito.objects.get_or_create(usuario=request.user.perfil, estado_pedido=True)
+    carrito, created = Carrito.objects.get_or_create(usuario=perfil_usuario, estado_pedido=True)
 
     #Para traer los items que estan en el carrito
     items = carrito.items.all()
@@ -59,7 +77,7 @@ def ver_carrito(request):
 #Funciones para ajustar cantidad de productos o eliminar el producto del carrito
 
 #Para el boton de aumentar y disminuir
-@login_required(login_url='accounts/login')
+@login_required(login_url='login')
 def actualizar_cantidad(request, item_id, accion):
 
     #Obtener el producto por id
@@ -67,16 +85,20 @@ def actualizar_cantidad(request, item_id, accion):
 
     #Condicional para definir la accion del boton y si aumenta o disminuye
     if accion == 'sumar':
-        item.cantidad += 1
+        if item.cantidad >= item.producto.stock:
+            messages.error(request, f'Lo sentimos, no hay más stock disponible de {item.producto.nombre_p}.')
+        else:
+            item.cantidad += 1
+            item.save()
     elif accion == 'restar' and item.cantidad > 1:
         item.cantidad -= 1
-    item.save()
+        item.save()
 
     #Lleva nuevamente al carrito
     return redirect('ver_carrito')
 
 #Para el boton de eliminar
-@login_required(login_url='accounts/login')
+@login_required(login_url='login')
 def eliminar_item(request, item_id):
 
     #obtener producto por id
@@ -94,9 +116,14 @@ def eliminar_item(request, item_id):
 # _________________________________________________
 
 #Funcion para generar la factura
+@login_required(login_url='login')
 def generar_factura(request):
+
+    # para obtener el perfil del usuario
+    perfil_usuario = obtener_perfil(request.user)
+
     #Para obtener la informacion del carrito activo por usuario, cerrarlo y pasar la informacion a factura
-    carrito = Carrito.objects.filter(usuario=request.user.perfil, estado_pedido=True).first()
+    carrito = Carrito.objects.filter(usuario=perfil_usuario, estado_pedido=True).first()
 
     #Para obtener los items del carrito
     if carrito:
@@ -104,6 +131,18 @@ def generar_factura(request):
 
         #Condicional para cerrar el carrito
         if items.exists():
+            for item in items:
+                producto = item.producto
+                # para quitar cantidad del inventario
+                producto.stock -= item.cantidad
+                # para evitar que el stock quede en negativo
+                if producto.stock < 0:
+                    producto.stock = 0
+                # para marcar como no disponible en la gestion
+                if producto.stock == 0:
+                    producto.estado = False
+                producto.save()
+            # Para cerrar el carrito y permitir la facturacion
             carrito.estado_pedido = False
             carrito.save()
 
@@ -111,15 +150,30 @@ def generar_factura(request):
             return redirect('ver_factura', carrito_id=carrito.id)
     return redirect('ver_carrito')
 
-@login_required(login_url='login')
 def ver_factura(request, carrito_id):
-    #Para buscar el carrito cerrado y la informacion que contenia
-    factura = get_object_or_404(Carrito, id=carrito_id, usuario=request.user.perfil, estado_pedido=False)
-    items = factura.items.all()
-    
-    return render(request, 'cart/factura.html', {'factura': factura, 'items': items})
+    # Mensaje por si el usuario no esta registrado/logeado y entrar a la factura
+    if not request.user.is_authenticated:
+        messages.warning(request, "Debes iniciar sesión para poder ver los detalles de tu factura.")
+        return redirect('login')
+    # para obtener el perfil del usuario
+    perfil_usuario = obtener_perfil(request.user)
 
-@login_required(login_url='login')
+    #Para buscar el carrito cerrado y la informacion que contenia
+    factura = get_object_or_404(Carrito, id=carrito_id, usuario=perfil_usuario, estado_pedido=False)
+    items = factura.items.all()
+    # Para sacar el subtotal de cada producto segun la cantidad
+    for item in items:
+        item.subtotal = item.cantidad * item.precio_unitario
+    
+    return render(request, 'cart/factura.html', {'factura': factura, 'items': items}, )
+
 def historial_facturas(request):
-    facturas = Carrito.objects.filter(usuario=request.user.perfil, estado_pedido=False).order_by('-fecha_pedido')
+    # Mensaje por si el usuario no esta registrado/logeado y entrar a la factura
+    if not request.user.is_authenticated:
+        messages.warning(request, "Debes iniciar sesión para poder ver los detalles de tu factura.")
+        return redirect('login')
+    # para obtener el perfil del usuario
+    perfil_usuario = obtener_perfil(request.user)
+    # Para generar la factura segun el usuario ordenado por la fecha de creacion
+    facturas = Carrito.objects.filter(usuario=perfil_usuario, estado_pedido=False).order_by('-fecha_pedido')
     return render(request, 'cart/historial.html', {'facturas':facturas})

@@ -20,10 +20,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    # Acceso a la parte administrativa
     path('admin/', admin.site.urls),
+    # Acceso principal al catalog (da con index) y la gestion
     path('', include('catalog.urls')),
-    path('carrito/',include('cart.urls'))
+    # Acceso al carrit
+    path('carrito/',include('cart.urls')),
+    # Acceso al login o registro
+    path('accounts/', include('accounts.urls')), 
+    # Acceso a la informacion del staff (gestion)
+    path('staff/', include('staff.urls')), 
 ]
 
+# Para obtener imagenes (para la parte de catalog)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

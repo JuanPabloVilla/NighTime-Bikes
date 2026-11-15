@@ -1,17 +1,19 @@
 from django.contrib import admin
 from .models import Carrito, items_carrito
 
-# Esto permite ver los productos comprados dentro del Carrito (Factura)
+# Para permitir ver los productos comprados dentro del Carrito (Factura)
 class ItemCarritoInline(admin.TabularInline):
     model = items_carrito
-    extra = 0 # No permitir añadir items manualmente desde el admin
+    # para evitar añadir items manualmente desde el admin
+    extra = 0 
     readonly_fields = ('producto', 'cantidad', 'precio_unitario')
 
 @admin.register(Carrito)
 class CarritoAdmin(admin.ModelAdmin):
     list_display = ('id', 'usuario', 'fecha_pedido', 'total_pagar', 'estado_pedido')
     list_filter = ('estado_pedido', 'fecha_pedido')
-    search_fields = ('usuario__usuario__username',) # Busca por el nombre del usuario
+    # Para Buscar por el nombre del usuario
+    search_fields = ('usuario__usuario__username',) 
     inlines = [ItemCarritoInline]
 
 @admin.register(items_carrito)

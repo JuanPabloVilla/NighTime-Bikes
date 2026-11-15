@@ -74,7 +74,7 @@ def crear_empleado(request):
 
     # Para mostrar el formulario, con el titulo y la pagina a la que vuelve el boton cancelar
     return render(request, 'staff/form_staff.html',
-                  {'form': form, 'titulo': 'Registrar nuevo empleado', 'volver': 'lista_empleados'})
+        {'form': form, 'titulo': 'Registrar nuevo empleado', 'volver': 'lista_empleados'})
 
 
 # Funcion para editar un empleado que ya existe
@@ -100,7 +100,7 @@ def editar_empleado(request, pk):
 
     # Para mostrar el formulario con el nombre del empleado en el titulo
     return render(request, 'staff/form_staff.html',
-                  {'form': form, 'titulo': f'Editar empleado: {empleado.usuario}', 'volver': 'lista_empleados'})
+        {'form': form, 'titulo': f'Editar empleado: {empleado.usuario}', 'volver': 'lista_empleados'})
 
 
 # _________________________________________________
@@ -140,7 +140,7 @@ def crear_horario(request):
 
     # Para mostrar el formulario, con el titulo y la pagina a la que vuelve el boton cancelar
     return render(request, 'staff/form_staff.html',
-                  {'form': form, 'titulo': 'Registrar nuevo horario', 'volver': 'lista_horarios'})
+        {'form': form, 'titulo': 'Registrar nuevo horario', 'volver': 'lista_horarios'})
 
 
 # Funcion para editar un horario que ya existe
@@ -166,4 +166,4 @@ def editar_horario(request, pk):
 
     # Para mostrar el formulario con el nombre del horario en el titulo
     return render(request, 'staff/form_staff.html',
-                  {'form': form, 'titulo': f'Editar horario: {horario.nombre_h}', 'volver': 'lista_horarios'})
+        {'form': form, 'titulo': f'Editar horario: {horario.nombre_h}', 'volver': 'lista_horarios'})

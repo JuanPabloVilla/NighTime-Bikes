@@ -2,13 +2,33 @@
     <div class="logo">
         <a href="{% url 'mostrar_productos' %}">🚴‍♂️ NightTime Bikes</a>
     </div>
-    <!-- Navbar principal -->
+    
     <nav class="main-nav">
-        <a href="{% url 'mostrar_productos' %}">Inicio</a>
-        <a href="{% url 'mostrar_bicis' %}">Bicicletas</a>  
-        <a href="{% url 'mostrar_accesorios' %}">Accesorios</a>
-        <a href="{% url 'mostrar_indumentaria' %}">Indumentaria</a>
-        <a href="{% url 'ver_carrito' %}">Carrito</a>
-        <a href="#">Facturas</a>
+        <!-- Navegacion entre paginas -->
+        <div class="nav-links">
+            <a href="{% url 'mostrar_productos' %}" class="{% if request.resolver_match.url_name == 'mostrar_productos' %}active{% endif %}">Inicio</a>
+            <a href="{% url 'mostrar_bicis' %}" class="{% if request.resolver_match.url_name == 'mostrar_bicis' %}active{% endif %}">Bicicletas</a>  
+            <a href="{% url 'mostrar_accesorios' %}" class="{% if request.resolver_match.url_name == 'mostrar_accesorios' %}active{% endif %}">Accesorios</a>
+            <a href="{% url 'mostrar_indumentaria' %}" class="{% if request.resolver_match.url_name == 'mostrar_indumentaria' %}active{% endif %}">Indumentaria</a>
+            <a href="{% url 'ver_carrito' %}" class="{% if request.resolver_match.url_name == 'ver_carrito' %}active{% endif %}">Carrito</a>
+            <a href="{% url 'historial_facturas' %}" class="{% if request.resolver_match.url_name == 'historial_facturas' %}active{% endif %}">Facturas</a>
+            <!-- Boton para los admins (lleva a la parte de gestion) -->
+            {% if user.is_superuser or user.perfil.rol == 'admin' %}
+                <a href="{% url 'lista_empleados' %}" class="{% if 'staff' in request.path %}active{% endif %}">Gestión Admin</a>
+            {% endif %}
+        </div>
+
+        <!-- Gestion de la sesion actual -->
+        <div class="nav-session">
+            {% if user.is_authenticated %}
+                <span class="user-greeting">Hola, <strong>{{ user.username }}</strong></span>
+                <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout">Cerrar Sesión</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn-login">Iniciar Sesión</a>
+            {% endif %}
+        </div>
     </nav>
 </header>

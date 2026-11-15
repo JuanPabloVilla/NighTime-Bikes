@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+<!-- Bicicletas -->
 {% block content %}
 <section class="catalog-section">
     <article class="filter-article">
@@ -35,7 +35,7 @@
                     <p class="product-price">${{ producto.precio }}</p>
                     <form action="{% url 'agregar_al_carrito' producto.id %}" method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="btn-add">Añadir al carrito</button>
+                        <button type="submit" class="btn-admin-add" style="width: 100%; border: none; margin-top: 10px;">Añadir al carrito</button>
                     </form>
                 </div>
             </div>

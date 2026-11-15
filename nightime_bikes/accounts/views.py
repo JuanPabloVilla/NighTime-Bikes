@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import perfil
 
 
 # Funcion que decide a donde va el usuario despues de hacer login
@@ -20,6 +21,7 @@ def registro(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             usuario = form.save()
+            perfil.objects.create(usuario=usuario, rol='cliente') 
             messages.success(request, f'Cuenta creada para {usuario.username}. Ya puedes iniciar sesion.')
             return redirect('login')
     else:

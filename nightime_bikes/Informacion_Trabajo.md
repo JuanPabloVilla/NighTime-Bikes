@@ -1,12 +1,13 @@
 1. Detalles de las entidades
 
-*Perfiles (clientes, empleados, admins)
+*Perfiles (clientes, admins, empleado)
 -usuario (nombre del usuario)
--rol (por defecta sera empleado cuando se cree nueva cuenta, normalmente a los empleados o admins se les da una cuenta)
+-rol (por defecto sera cliente cuando se cree nueva cuenta, normalmente a los empleados o admins se les da una cuenta)
 -cedula
 -telefono
 -direccion (para perfil cliente)
 -estado (activo, descanso, deshabilitado. Esta parte es para empleados y admins)
+-horario (para empleados)
 
 *productos
 -nombre_p
@@ -15,23 +16,25 @@
 -imagen
 -id_categoría
 -stock
--estado_p
+-estado
 
 *categoría
 -nombre_categoria
+-Descripcion
 
 *horarios
 -nombre_h
--tiempo
+-tiempo_inicio
+-tiempo_fin
 
-*pedidos (esta seria la informacion de la factura)
+*Carrito 
 -id_usuario
 -fecha_pedido
 -total_pagado
 -estado_pedido (pendiente, pagado, enviado)
 
-*detalles_pedido (los productos que contiene la factura)
--id_pedido (a que factura estan relacionados los productos)
+*item_carrito (los productos que contiene la factura)
+-id_carrito 
 -id_productos (que productos compro)
 -cantidad
 -precio_unitario
@@ -43,8 +46,9 @@ ______________________________________________________________________________
 *catalog
 
 -Manejo de productos
--Estructura modelos de biciclteas y accesorios
+-Estructura modelos de los productos (bicis, accesorios, indumentaria)
 -información de modelos de productos
+-Templates para mostrar los productos (todo perfil) y gestionarlos (solo administracion)
 
 *accounts
 
@@ -74,10 +78,10 @@ ______________________________________________________________________________
     -relación 1=muchos, una categoría puede tener varios productos. Un producto puede estar en una categoría a la vez
 
 *Carrito, ítems y usuario. 
-    -Cada usuario tiene un carrito 1=1. cada carrito puede almacenar varios productos y mas de un solo producto puede ir varias veces a un carrito
+    -Cada usuario tiene un carrito al tiempo 1=1. cada carrito puede almacenar varios productos y mas de un solo producto puede ir varias veces a un carrito
 
-*Pedidos y detalles. 
-    -1=muchos. Un usuario puede tener mcuhos pedidos, un pedido tiene muchos productos
+*facturas y detalles. 
+    -1=muchos. Un usuario puede tener muchos facturas, una factura puede tener muchos productos
 
 ______________________________________________________________________________
 
@@ -85,20 +89,22 @@ partes a trabajar cada miembro:
 
 *Abraham:
 
--staff 
--catalog para las vistas de crear/editar productos
+-staff para la gestion de los empleados
+-catalog para la gestion de productos
 -Diagramas corregido (tomando como ejemplo los ya hechos en anteriores semestres y los que estan en el documento)
 
 *Juan:
 
 -catalog. Toda la parte de los productos
 -cart. Toda la sesion del carrito 
+-Proceso Debug
+-Proceso de diseño
 
 *app compartida
 
 -accounts. 
-    -Juan: modelo perfil 
-    -Abraham: vistas para que el admin vea los empleados usando el mismo modelo
+    -Juan: modelo perfil y manejo de alertas
+    -Abraham: modelado para que la parte administrativa pueda gestionar los elementos necesarios 
 
 ______________________________________________________________________________
 
@@ -109,9 +115,13 @@ python -m pip install -r requirements.txt
 Se instalara todo lo necesario, en caso de que algo no funcione y ponga un texto que diga algo similar a "no se a detactado django, sql, etc" hacer el install correspondiente
 
 python -m pip install
-    -django
-    -mysqlclient
-    -python-dotenv
-    -Pillow (imagenes)
+    (informacion del requirements)
+    asgiref==3.13.0
+    Django==6.1.2
+    mysqlclient==2.3.0
+    pillow==13.0.0
+    python-dotenv==1.2.4
+    sqlparse==0.6.0
+    tzdata==2026.6
 
 ______________________________________________________________________________

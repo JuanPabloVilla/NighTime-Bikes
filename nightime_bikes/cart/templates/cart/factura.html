@@ -2,12 +2,13 @@
 
 {% block content %}
 <section class="invoice-container">
+    <!-- Informacion base de la factura -->
     <div class="invoice-header">
         <h2>Factura #{{ factura.id }}</h2>
         <p>Fecha: {{ factura.fecha_pedido|date:"d/m/Y H:i" }}</p>
         <p>Cliente: {{ request.user.username }}</p>
     </div>
-
+    <!-- Tabla de facturas para la lista de productos -->
     <table class="invoice-details">
         <thead>
             <tr>
@@ -23,13 +24,13 @@
                     <td>{{ item.producto.nombre_p }}</td>
                     <td>{{ item.cantidad }}</td>
                     <td>${{ item.precio_unitario }}</td>
-                    <!-- Aquí sí calculamos el subtotal -->
-                    <td>${{ item.cantidad|mul:item.precio_unitario }}</td> 
+                    <!-- Para calculo del subtotal -->
+                    <td>${{ item.subtotal }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-
+    <!-- Factura generada al terminar la compra del carrito -->
     <div class="invoice-total">
         <h3>Total Pagado: ${{ factura.total_pagar }}</h3>
         <p>¡Gracias por tu compra en NightTime Bikes!</p>

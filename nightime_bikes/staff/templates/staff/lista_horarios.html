@@ -1,29 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Horarios registrados (Total: {{ total_registros }})</h2>
+<section class="admin-panel">
+    <div class="auth-container" style="max-width: 1000px;">
+        <div class="section-header">
+            <h2>Horarios Registrados (Total: {{ total_registros }})</h2>
+            <a href="{% url 'crear_horario' %}" class="btn-admin-add">+ Nuevo Horario</a>
+        </div>
 
-<p>
-    <a href="{% url 'crear_horario' %}">Registrar horario</a> |
-    <a href="{% url 'lista_empleados' %}">Ver empleados</a>
-</p>
+        <div style="margin-bottom: 20px;">
+            <a href="{% url 'lista_empleados' %}" style="color: var(--morado-oscuro); font-weight: bold; text-decoration: none;">&larr; Volver a Empleados</a>
+        </div>
 
-<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-    <tr>
-        <th>Nombre</th>
-        <th>Entrada</th>
-        <th>Salida</th>
-        <th>Acciones</th>
-    </tr>
-    {% for horario in horarios %}
-    <tr>
-        <td><strong>{{ horario.nombre_h }}</strong></td>
-        <td>{{ horario.tiempo_inicial|time:"H:i" }}</td>
-        <td>{{ horario.tiempo_final|time:"H:i" }}</td>
-        <td><a href="{% url 'editar_horario' horario.pk %}">Editar</a></td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="4" style="text-align: center;">No hay horarios registrados.</td></tr>
-    {% endfor %}
-</table>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Nombre del Turno</th>
+                    <th>Hora de Entrada</th>
+                    <th>Hora de Salida</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for horario in horarios %}
+                <tr>
+                    <td><strong>{{ horario.nombre_h }}</strong></td>
+                    <td>{{ horario.tiempo_inicial|time:"H:i" }}</td>
+                    <td>{{ horario.tiempo_final|time:"H:i" }}</td>
+                    <td><a href="{% url 'editar_horario' horario.pk %}" class="btn-edit">Editar</a></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" style="text-align: center; padding: 20px;">No hay horarios registrados.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}
